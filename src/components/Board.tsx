@@ -7,14 +7,15 @@ export interface IBoard {
 
 const Board = ({ height, width}: IBoard) => {
     const canvasRef = useRef(null)
-      
-    useEffect(() => {
+    var p = 0
+      useEffect(() => {
+    
         const canvas = canvasRef.current
         const context = canvas.getContext('2d')
-        //Our first draw
-        context.fillStyle = 'purple'
-        context.fillRect(0, 0, context.canvas.width, context.canvas.height)
-      }, [])
+        
+        //Our draw come here
+        drawGrid(context, width, p , height)
+      }, [drawGrid])
     return (
         <canvas
         ref={canvasRef}
@@ -26,5 +27,19 @@ const Board = ({ height, width}: IBoard) => {
         />
     );
 };
+
+function drawGrid(context, bw, p, bh){
+    for (var x = 0; x <= bw; x += 20) {
+        context.moveTo(x + p, p);
+        context.lineTo(x + p, bh + p);
+    }
+
+    for (var x = 0; x <= bh; x += 20) {
+        context.moveTo(p,  x + p);
+        context.lineTo(bw + p, x + p);
+    }
+    context.strokeStyle = "DodgerBlue";
+    context.stroke();
+}
 
 export default Board;
