@@ -1,21 +1,51 @@
 import React, { useRef, useEffect }  from "react"
+import { legacy_createStore } from "redux";
+import { start } from "repl";
+// import clearCanvas from "../utilities/index";
 
 export interface IBoard {
     height: number;
     width: number;
-  }
+}
 
 const Board = ({ height, width}: IBoard) => {
     const canvasRef = useRef(null)
-    var p = 0
-      useEffect(() => {
-    
+
+    const drawSnake = (ctx, startX, startY, endX, endY) => {
+        ctx.clearRect(0, 0 , width, height);
+        ctx.fillStyle = "green";
+        ctx.fillRect(startX, startY, endX, endY);
+        drawGrid(ctx, width, height)
+    }
+
+    useEffect(() => {
         const canvas = canvasRef.current
         const context = canvas.getContext('2d')
+        let startX = 0
+        let startY = 0
+        let endX = 20
+        let endY = 20
+        let frameCount = 0
+        let animationFrameId
+
+        const render = () => {
+            frameCount++
+            animationFrameId = window.requestAnimationFrame(render)
+            if ( frameCount % 20 == 0)
+            {
+                drawSnake(context, startX, startY, endX, endY)
+                startX += 20
+            }
+        }
+
+        render()
         
-        //Our draw come here
-        drawGrid(context, width, p , height)
-      }, [drawGrid])
+        return () => {
+            window.cancelAnimationFrame(animationFrameId)
+        }
+        }, [drawSnake]
+    )
+
     return (
         <canvas
         ref={canvasRef}
@@ -28,18 +58,22 @@ const Board = ({ height, width}: IBoard) => {
     );
 };
 
-function drawGrid(context, bw, p, bh){
-    for (var x = 0; x <= bw; x += 20) {
-        context.moveTo(x + p, p);
-        context.lineTo(x + p, bh + p);
+function drawGrid(context, width, height){
+    for (var x = 0; x <= width; x += 20) {
+        context.moveTo(x, 0);
+        context.lineTo(x, height);
     }
 
-    for (var x = 0; x <= bh; x += 20) {
-        context.moveTo(p,  x + p);
-        context.lineTo(bw + p, x + p);
+    for (var x = 0; x <= height; x += 20) {
+        context.moveTo(0,  x);
+        context.lineTo(width, x);
     }
     context.strokeStyle = "DodgerBlue";
     context.stroke();
 }
 
+// function assertIsNumber (value: unknown): asserts value is number {
+//     if (typeof value !== 'number') throw new Error('Not a number');
+//   }
+  
 export default Board;

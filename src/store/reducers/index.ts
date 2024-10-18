@@ -2,7 +2,9 @@
 import { MOVE_DOWN, MOVE_LEFT, MOVE_UP, MOVE_RIGHT } from "../actions/index";
 
 const initialState = {
-    data: ""
+    data: "",
+    snake: {},
+    fruit: {}
 };
 
 const gameReducer = (state = initialState, action) => {
