@@ -10,11 +10,15 @@ export interface IBoard {
 
 const Board = ({ height, width}: IBoard) => {
     const canvasRef = useRef(null)
+    let fruitX = Math.floor(Math.random()*(width / 20))
+    let fruitY = Math.floor(Math.random()*(height / 20))
 
     const drawSnake = (ctx, startX, startY, endX, endY) => {
         ctx.clearRect(0, 0 , width, height);
         ctx.fillStyle = "green";
         ctx.fillRect(startX, startY, endX, endY);
+        ctx.fillStyle = "purple";
+        ctx.fillRect(fruitX * 20, fruitY * 20, 20, 20)
         drawGrid(ctx, width, height)
     }
 
@@ -23,15 +27,15 @@ const Board = ({ height, width}: IBoard) => {
         const context = canvas.getContext('2d')
         let startX = 0
         let startY = 0
-        let endX = 20
+        let endX = 40
         let endY = 20
         let frameCount = 0
         let animationFrameId
-
+    
         const render = () => {
             frameCount++
             animationFrameId = window.requestAnimationFrame(render)
-            if ( frameCount % 20 == 0)
+            if ( frameCount % 20 === 0)
             {
                 drawSnake(context, startX, startY, endX, endY)
                 startX += 20
@@ -75,5 +79,4 @@ function drawGrid(context, width, height){
 // function assertIsNumber (value: unknown): asserts value is number {
 //     if (typeof value !== 'number') throw new Error('Not a number');
 //   }
-  
 export default Board;
