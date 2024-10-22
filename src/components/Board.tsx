@@ -8,18 +8,18 @@ export interface IBoard {
     width: number;
 }
 
-const Board = ({ height, width}: IBoard) => {
+const Board = (props) => {
     const canvasRef = useRef(null)
-    let fruitX = Math.floor(Math.random()*(width / 20))
-    let fruitY = Math.floor(Math.random()*(height / 20))
+    let fruitX = Math.floor(Math.random()*(props.width / 20))
+    let fruitY = Math.floor(Math.random()*(props.height / 20))
 
     const drawSnake = (ctx, startX, startY, endX, endY) => {
-        ctx.clearRect(0, 0 , width, height);
+        ctx.clearRect(0, 0 , props.width, props.height);
         ctx.fillStyle = "green";
         ctx.fillRect(startX, startY, endX, endY);
         ctx.fillStyle = "purple";
         ctx.fillRect(fruitX * 20, fruitY * 20, 20, 20)
-        drawGrid(ctx, width, height)
+        drawGrid(ctx, props.width, props.height)
     }
 
     useEffect(() => {
@@ -41,8 +41,10 @@ const Board = ({ height, width}: IBoard) => {
                 startX += 20
             }
         }
-
-        render()
+        if(props.stop === false)
+        {
+            render()
+        }
         
         return () => {
             window.cancelAnimationFrame(animationFrameId)
@@ -56,8 +58,8 @@ const Board = ({ height, width}: IBoard) => {
         style = {{
             border: "3px solid black",
         }}
-        height={height}
-        width={width}
+        height={props.height}
+        width={props.width}
         />
     );
 };
