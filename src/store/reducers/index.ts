@@ -1,55 +1,76 @@
-// This file will contain all the reducer logic related to the component.
-import { MOVE_DOWN, MOVE_LEFT, MOVE_UP, MOVE_RIGHT } from "../actions/index";
+import { MOVE_DOWN, MOVE_LEFT, MOVE_UP, MOVE_RIGHT, ADD_BODY} from "../actions/index";
+import { Block, Directions } from "/Users/dizhu/snake-game/src/utilities/index.tsx"
+import { createSlice } from '@reduxjs/toolkit'
 
-const initialState = {
-    data: "",
-    snake: {},
-    fruit: {}
-};
+export const counterSlice = createSlice({
+  name: 'counter',
+  
+  initialState: {
+    value: 0,
+    snake: [{id:0, pos:{x: 300, y: 500}, direction: Directions.Left}, {id:1, pos:{x: 280, y: 500}, direction: Directions.Left}]
+  },
 
-const gameReducer = (state = initialState, action) => {
-    switch (action.type) {
-        case "MOVE_RIGHT":
-            /**
-             * Perform a certain set of operations
-             */
-            return {
-                type: MOVE_RIGHT, 
-                data: action.payload
-            };
-        case "MOVE_LEFT":
-            /**
-             * Perform a certain set of operations
-             */
-            return {
-                ...state, data: action.payload
-            };
-        case "MOVE_UP":
-            /**
-             * Perform a certain set of operations
-             */
-            return {
-                ...state, data: action.payload
-            };
-
-        case "MOVE_DOWN":
-            /**
-             * Perform a certain set of operations
-             */
-            return {
-                // Note: Each action object must have a unique type value. Along with it, any additional data passed with the action object is optional and will depend on the logic used for updating the state
-                ...state, data: action.payload
-            };
-        case "EAT_FRUIT":
-            /**
-             * Perform a certain set of operations
-             */
-            return {
-                ...state, data: action.payload
-            };
-        default:
-            return state;
+  reducers: {
+    left: state => {
+        state.snake.forEach( (element) => {
+            element.pos.x -= 20
+        });
+    },
+    right: state => {
+        state.snake.forEach( (element) => {
+            element.pos.x += 20
+        });
     }
-};
+  }
+})
 
-export default gameReducer;
+export const { left, right } = counterSlice.actions
+
+export default counterSlice.reducer
+
+// const initialState = {
+//     snake: [{id:0, pos:{x: 300, y: 500}, direction: Directions.Left}, {id:1, pos:{x: 280, y: 500}, direction: Directions.Left}],
+//     fruit: [],
+//     //gam
+// };
+
+// const gameReducer = (state = initialState, action) => {
+//     switch (action.type) {
+//         case 'ADD_BODY':
+//             return {
+//                 ...state,
+//                 snake: [
+//                     ...state.snake,
+//                     {
+//                       id: action.id,
+//                       text: action.text
+//                     }
+//                   ]
+//             };
+
+//         case "MOVE_RIGHT":
+//             return {
+//                 ...state,
+//                 snake: state.snake.forEach((element) => element.pos.x += action.payload)
+//             }
+
+//         case "MOVE_LEFT":
+//             return state.snake.forEach((element) => element.pos.x -= action.payload)
+
+//         case "MOVE_UP":
+//             return state.snake.forEach((element) => element.pos.y -= action.payload)
+
+//         case "MOVE_DOWN":
+//             return state.snake.forEach((element) => element.pos.y += action.payload)
+            
+//         case 'GAME_OVER':
+//             return {
+//                 ...state,
+//                 tasks: [...state.snake, action.payload]
+//             };
+//         default:
+//             return state;
+//     }
+// };
+
+// export default gameReducer;

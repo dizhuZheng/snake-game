@@ -1,8 +1,8 @@
 import { ChakraProvider, Container, Heading, Kbd, Button } from "@chakra-ui/react";
 import { Provider } from "react-redux";
 import { useState } from "react"
-import store from "./store/index.js";
 import Board from "./components/Board.tsx";
+import Snake from "./components/Snake.tsx";
 
 export default function App() {
   const [stop, setStop] = useState(false);
@@ -12,7 +12,7 @@ export default function App() {
   }
 
   return (
-    <Provider store={store}>
+    // <Provider store={store}>
       <ChakraProvider>
         <Container maxW="container.lg" centerContent>
           <Heading as="h1" size="xl">SNAKE GAME</Heading>
@@ -29,7 +29,7 @@ export default function App() {
         {/* disabled={!hasPrev} */}
         </Container>
       </ChakraProvider>
-    </Provider>
+    // </Provider>
   );
 }
 

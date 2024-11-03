@@ -2,14 +2,21 @@ export function clearCanvas(context, width, height): void{
     context.clearRect(0, 0 , width, height);
 }
 
-export interface Block {
+export interface Point {
     x: number;
     y: number;
-    color: string; 
 }
 
-export function drawBlock(context, block: Block) {
-    context.fillStyle = block.color
-    context.fillRect(block.x, block.y, 20, 20)
+export enum Directions {
+    Left,
+    Right,
+    Up,
+    Down
+}
+
+export interface Block {
+   id: number
+   pos: Point
+   direction: Directions
 }
 
