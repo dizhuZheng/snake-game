@@ -20,3 +20,9 @@ export interface Block {
    direction: Directions
 }
 
+export function drawSnake(context, snake): void {
+    snake.forEach(element => {
+        context.fillStyle = "green"
+        context.fillRect(element.pos.x, element.pos.y, 20, 20)
+    });
+}

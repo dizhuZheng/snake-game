@@ -7,13 +7,13 @@ export const counterSlice = createSlice({
   
   initialState: {
     value: 0,
-    snake: [{id:0, pos:{x: 300, y: 500}, direction: Directions.Left}, {id:1, pos:{x: 280, y: 500}, direction: Directions.Left}]
+    snake: [{id:0, pos:{x: 500, y: 300}, direction: Directions.Left}, {id:1, pos:{x: 480, y: 300}, direction: Directions.Left}]
   },
 
   reducers: {
     left: state => {
-        state.snake.forEach( (element) => {
-            element.pos.x -= 20
+        state.snake.forEach((element) => {
+            element.pos.x -= 50
         });
     },
     right: state => {
