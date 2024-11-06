@@ -15,14 +15,27 @@ export enum Directions {
 }
 
 export interface Block {
-   id: number
    pos: Point
    direction: Directions
 }
 
 export function drawSnake(context, snake): void {
+    context.fillStyle = "green"
     snake.forEach(element => {
-        context.fillStyle = "green"
         context.fillRect(element.pos.x, element.pos.y, 20, 20)
     });
+}
+
+export function drawGrid(context, width, height){
+    for (var x = 0; x <= width; x += 20) {
+        context.moveTo(x, 0);
+        context.lineTo(x, height);
+    }
+
+    for (x = 0; x <= height; x += 20) {
+        context.moveTo(0,  x);
+        context.lineTo(width, x);
+    }
+    context.strokeStyle = "DodgerBlue";
+    context.stroke();
 }

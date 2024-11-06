@@ -1,11 +1,9 @@
 import React, { useRef, useEffect, useState }  from "react"
-import { clearCanvas, drawSnake } from "../utilities/index.tsx"
-import { left, right } from '../store/reducers/index.ts'
+import { clearCanvas, drawSnake, drawGrid } from "../utilities/index.tsx"
 import { useAppDispatch, useAppSelector } from '../hooks.tsx'
-
-const keyDown = (e) => {
-    console.log("keyDown! '"+e.key+"'");
-  }
+import { withDefaultColorScheme } from "@chakra-ui/react"
+import { blockAdded, moveLeft, moveDown, moveRight, moveUp } from "../store/reducers/index.ts"
+import { Directions } from "../utilities/index.tsx"
 
 const Board = (props) => {
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -18,73 +16,62 @@ const Board = (props) => {
         const canvas = canvasRef.current
         if (canvas)
         {
-            const context = canvas.getContext('2d')
+          const context = canvas.getContext('2d')
+
+          drawSnake(context, snake)
+
+          drawGrid(context, props.width, props.height)
+          
+          const handleKeyDown = (event) => {
         
-            drawSnake(context, snake)
-
-            drawGrid(context, props.width, props.height)
-
-            const handleKeyDown = (event) => {
-                console.log('Key pressed:', event.key);
-          
-                // Handle specific key presses
-                switch (event.key) {
-                  case 'ArrowUp':
-                    // Move up
-                    break;
-                  case 'ArrowDown':
-                    // Move down
-                    break;
-                  case 'ArrowLeft':
-                    // Move left
-                    break;
-                  case 'ArrowRight':
-                    // Move right
-                    break;
-                  default:
-                    break;
-                }
-              };
-          
-              window.addEventListener('keydown', handleKeyDown);
-          
-              return () => {
-                window.removeEventListener('keydown', handleKeyDown);
-              };
-            }
-            }, []);
+              switch (event.key) {
+                case 'a':
+                  // move left
+                  dispatch(moveLeft());
+                  clearCanvas(context, props.width, props.height)
+                  drawGrid(context, props.width, props.height)
+                  break;
+                case 's':
+                  // Move right
+                  dispatch(moveRight());
+                  clearCanvas(context, props.width, props.height)
+                  drawGrid(context, props.width, props.height)
+                  break;
+                case 'w':
+                  // Move up
+                  dispatch(moveUp());
+                  clearCanvas(context, props.width, props.height)
+                  drawGrid(context, props.width, props.height)
+                  break;
+                case 'd':
+                  // Move down
+                  dispatch(moveDown());
+                  clearCanvas(context, props.width, props.height)
+                  drawGrid(context, props.width, props.height)
+                  break;
+                default:
+                  break;
+              }
+            };
+            window.addEventListener('keydown', handleKeyDown);
+            return () => {
+              window.removeEventListener('keydown', handleKeyDown);
+            };
+          }
+        }, [snake, canvasRef]);
+    
     return (
         <>
-            <Score />
-            <canvas
-            ref={canvasRef}
-            style = {{
-                border: "3px solid black",
-            }}
-            height={props.height}
-            width={props.width}
-            />
-            <div onKeyDown={keyDown}></div>
+          <canvas
+          ref={canvasRef}
+          style = {{
+              border: "3px solid black",
+          }}
+          height={props.height}
+          width={props.width}
+          />
         </>
     );
 };
-
-function Score() {
-    return <h3>Current Score: </h3>
-}
-
-function drawGrid(context, width, height){
-    for (var x = 0; x <= width; x += 20) {
-        context.moveTo(x, 0);
-        context.lineTo(x, height);
-    }
-
-    for (var x = 0; x <= height; x += 20) {
-        context.moveTo(0,  x);
-        context.lineTo(width, x);
-    }
-    context.strokeStyle = "DodgerBlue";
-    context.stroke();
-}
 
 export default Board

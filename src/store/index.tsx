@@ -1,12 +1,12 @@
 import { configureStore} from "@reduxjs/toolkit";
 import createSagaMiddleware from "redux-saga";
-import counterReducer from "./reducers/index.ts";
+import todoReducer from "./reducers/index.ts";
 import watcherSagas from "./sagas/index.ts";
 
 const sagaMiddleware = createSagaMiddleware();
 
 const store = configureStore({
-    reducer: counterReducer,
+    reducer: todoReducer ,
     middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(sagaMiddleware),
   })
 

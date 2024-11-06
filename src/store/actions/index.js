@@ -1,5 +1,4 @@
-import { Directions } from "../../utilities";
-
+import { Directions  } from "/Users/dizhu/snake-game/src/utilities/index.tsx";
 export const MOVE_RIGHT = "MOVE_RIGHT";
 export const MOVE_LEFT= "MOVE_LEFT";
 export const MOVE_UP = "MOVE_UP";
@@ -20,7 +19,7 @@ export const addBody = (body) => {
 export const moveLeft = () => {
     return {
       type: MOVE_LEFT,
-      payload: {amount: 20, direction: Directions.Left}
+      payload: { amount: 20, direction: Directions.Left}
     }
 }
 
