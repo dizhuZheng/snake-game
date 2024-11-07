@@ -1,5 +1,5 @@
-import React, { useRef, useEffect, useState }  from "react"
-import { clearCanvas, drawSnake, drawGrid } from "../utilities/index.tsx"
+import React, { useRef, useEffect, useState, useMemo  }  from "react"
+import { clearCanvas, drawSnake, drawGrid, Point, drawFruit } from "../utilities/index.tsx"
 import { useAppDispatch, useAppSelector } from '../hooks.tsx'
 import { withDefaultColorScheme } from "@chakra-ui/react"
 import { blockAdded, moveLeft, moveDown, moveRight, moveUp } from "../store/reducers/index.ts"
@@ -10,8 +10,19 @@ const Board = (props) => {
 
     const snake = useAppSelector((state) => state.snake)
 
+    const memoizedValue = useMemo(() => {
+      let p1 = Math.floor(Math.random()*props.width/20) * 20
+
+      let p2 = Math.floor(Math.random()*props.height/20) * 20
+
+      let result : Point = {x: p1, y: p2}
+
+      return result;
+
+    }, []);
+
     const dispatch = useAppDispatch()
-    
+
     useEffect(() => {
         const canvas = canvasRef.current
         if (canvas)
@@ -21,7 +32,9 @@ const Board = (props) => {
           drawSnake(context, snake)
 
           drawGrid(context, props.width, props.height)
-          
+
+          drawFruit(context, memoizedValue)
+
           const handleKeyDown = (event) => {
         
               switch (event.key) {
@@ -58,7 +71,7 @@ const Board = (props) => {
               window.removeEventListener('keydown', handleKeyDown);
             };
           }
-        }, [snake, canvasRef]);
+        }, [snake]);
     
     return (
         <>

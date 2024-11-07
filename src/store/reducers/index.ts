@@ -5,7 +5,7 @@ import { createSlice } from '@reduxjs/toolkit'
 const todosSlice = createSlice({
   name: 'snake',
   initialState: { 
-    snake: [{pos:{x: 500, y: 300}, direction: Directions.Left}, {pos:{x: 480, y: 300}, direction: Directions.Left}]
+    snake: [{pos:{x: 500, y: 300}, direction: Directions.Left}, {pos:{x: 480, y: 300}, direction: Directions.Left}],
   },
   reducers: {
     blockAdded(state, action) {

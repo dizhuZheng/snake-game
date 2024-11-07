@@ -3,8 +3,8 @@ export function clearCanvas(context, width, height): void{
 }
 
 export interface Point {
-    x: number;
-    y: number;
+    readonly x: number;
+    readonly y: number;
 }
 
 export enum Directions {
@@ -24,6 +24,11 @@ export function drawSnake(context, snake): void {
     snake.forEach(element => {
         context.fillRect(element.pos.x, element.pos.y, 20, 20)
     });
+}
+
+export function drawFruit(context, Point): void {
+    context.fillStyle = "purple"
+    context.fillRect(Point.x, Point.y, 20, 20)
 }
 
 export function drawGrid(context, width, height){
