@@ -24,6 +24,36 @@ const Board = (props) => {
     const dispatch = useAppDispatch()
 
     useEffect(() => {
+    
+      const canvas = canvasRef.current
+      if(canvas)
+      {
+        const context = canvas.getContext('2d')
+
+        let frameCount = 0
+        let animationFrameId
+
+        const render = () => {
+          frameCount++
+          animationFrameId = window.requestAnimationFrame(render)
+          if ( frameCount % 20 === 0)
+          {
+            clearCanvas(context, props.width, props.height)
+            dispatch(moveRight())
+            drawGrid(context, props.width, props.height)
+          }
+      }
+      if(!props.stop)
+      {
+        render()
+      }
+      return () => {
+        window.cancelAnimationFrame(animationFrameId)
+      }
+    }
+    }, [props.stop])
+  
+    useEffect(() => {
         const canvas = canvasRef.current
         if (canvas)
         {
