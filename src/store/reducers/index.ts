@@ -6,6 +6,7 @@ const todosSlice = createSlice({
   name: 'snake',
   initialState: { 
     snake: [{pos:{x: 500, y: 300}, direction: Directions.Left}, {pos:{x: 480, y: 300}, direction: Directions.Left}],
+    gameOver: false
   },
   reducers: {
     blockAdded(state, action) {

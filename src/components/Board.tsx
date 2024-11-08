@@ -1,14 +1,16 @@
-import React, { useRef, useEffect, useState, useMemo  }  from "react"
+import React, { useRef, useEffect, useState, useMemo, useCallback  }  from "react"
 import { clearCanvas, drawSnake, drawGrid, Point, drawFruit } from "../utilities/index.tsx"
 import { useAppDispatch, useAppSelector } from '../hooks.tsx'
 import { withDefaultColorScheme } from "@chakra-ui/react"
-import { blockAdded, moveLeft, moveDown, moveRight, moveUp } from "../store/reducers/index.ts"
+import { blockAdded, moveLeft, moveDown, moveRight, moveUp} from "../store/reducers/index.ts"
 import { Directions } from "../utilities/index.tsx"
 
 const Board = (props) => {
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
     const snake = useAppSelector((state) => state.snake)
+
+    const [gg, setGG] = useState(false);
 
     const memoizedValue = useMemo(() => {
       let p1 = Math.floor(Math.random()*props.width/20) * 20
@@ -24,8 +26,15 @@ const Board = (props) => {
     const dispatch = useAppDispatch()
 
     useEffect(() => {
-    
       const canvas = canvasRef.current
+
+      snake.forEach((element) => {
+        if(element.pos.x <= 0 || element.pos.y >= 599 || element.pos.y <= 0 || element.pos.x >= 999)
+          {
+            setGG(true)
+          }
+        });
+
       if(canvas)
       {
         const context = canvas.getContext('2d')
@@ -36,22 +45,25 @@ const Board = (props) => {
         const render = () => {
           frameCount++
           animationFrameId = window.requestAnimationFrame(render)
+
           if ( frameCount % 20 === 0)
           {
             clearCanvas(context, props.width, props.height)
-            dispatch(moveRight())
+            dispatch(moveRight());
             drawGrid(context, props.width, props.height)
           }
       }
-      if(!props.stop)
+      
+      if(props.stop == false && gg == false)
       {
         render()
       }
+
       return () => {
         window.cancelAnimationFrame(animationFrameId)
       }
     }
-    }, [props.stop])
+    }, [snake, props.stop])
   
     useEffect(() => {
         const canvas = canvasRef.current
