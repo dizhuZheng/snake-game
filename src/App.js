@@ -2,7 +2,6 @@ import { ChakraProvider, Container, Heading, Kbd, Button } from "@chakra-ui/reac
 import { Provider } from "react-redux";
 import { useState } from "react"
 import Board from "./components/Board.tsx";
-import Snake from "./components/Snake.tsx";
 
 export default function App() {
   const [stop, setStop] = useState(false);

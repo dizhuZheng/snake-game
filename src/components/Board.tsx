@@ -1,9 +1,10 @@
 import React, { useRef, useEffect, useState, useMemo, useCallback  }  from "react"
-import { clearCanvas, drawSnake, drawGrid, Point, drawFruit } from "../utilities/index.tsx"
+import { clearCanvas, drawSnake, drawGrid, Point, drawFruit, Block} from "../utilities/index.tsx"
 import { useAppDispatch, useAppSelector } from '../hooks.tsx'
 import { withDefaultColorScheme } from "@chakra-ui/react"
-import { blockAdded, moveLeft, moveDown, moveRight, moveUp} from "../store/reducers/index.ts"
+import { blockAdded, moveLeft, moveDown, moveRight, moveUp, changeFruit} from "../store/reducers/index.ts"
 import { Directions } from "../utilities/index.tsx"
+
 
 const Board = (props) => {
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -12,20 +13,13 @@ const Board = (props) => {
 
     const [gg, setGG] = useState(false);
 
-    const memoizedValue = useMemo(() => {
-      let p1 = Math.floor(Math.random()*props.width/20) * 20
+    const fruit = useAppSelector((state) => state.fruit)
 
-      let p2 = Math.floor(Math.random()*props.height/20) * 20
-
-      let result : Point = {x: p1, y: p2}
-
-      return result;
-
-    }, []);
+    //setFruit({x: Math.floor(Math.random()*props.width/20) * 20, y: Math.floor(Math.random()*props.height/20) * 20})
 
     const dispatch = useAppDispatch()
 
-    useEffect(() => {
+    /*useEffect(() => {
       const canvas = canvasRef.current
 
       snake.forEach((element) => {
@@ -34,6 +28,11 @@ const Board = (props) => {
             setGG(true)
           }
         });
+      
+      if(snake[0].pos.x == memoizedValue.x && snake[0].pos.y == memoizedValue.y)
+        {
+          dispatch(blockAdded({pos:{x:memoizedValue.x, y: memoizedValue.y}, Directions: Directions.Left}))
+        }
 
       if(canvas)
       {
@@ -63,7 +62,7 @@ const Board = (props) => {
         window.cancelAnimationFrame(animationFrameId)
       }
     }
-    }, [snake, props.stop])
+    }, [snake, props.stop])*/
   
     useEffect(() => {
         const canvas = canvasRef.current
@@ -75,7 +74,15 @@ const Board = (props) => {
 
           drawGrid(context, props.width, props.height)
 
-          drawFruit(context, memoizedValue)
+          drawFruit(context, fruit)
+
+          if(snake[0].pos.x == fruit.x && snake[0].pos.y == fruit.y)
+          {
+            let body:Block = {pos: {x: fruit.x, y: fruit.y}, direction: snake[0].direction}
+            dispatch(blockAdded(body));
+            console.log(snake)
+            dispatch(changeFruit())
+          }
 
           const handleKeyDown = (event) => {
         
@@ -87,8 +94,8 @@ const Board = (props) => {
                   drawGrid(context, props.width, props.height)
                   break;
                 case 's':
-                  // Move right
-                  dispatch(moveRight());
+                  // Move down
+                  dispatch(moveDown());
                   clearCanvas(context, props.width, props.height)
                   drawGrid(context, props.width, props.height)
                   break;
@@ -99,8 +106,8 @@ const Board = (props) => {
                   drawGrid(context, props.width, props.height)
                   break;
                 case 'd':
-                  // Move down
-                  dispatch(moveDown());
+                  // Move Right
+                  dispatch(moveRight());
                   clearCanvas(context, props.width, props.height)
                   drawGrid(context, props.width, props.height)
                   break;
@@ -113,7 +120,7 @@ const Board = (props) => {
               window.removeEventListener('keydown', handleKeyDown);
             };
           }
-        }, [snake]);
+        }, [snake, blockAdded]);
     
     return (
         <>

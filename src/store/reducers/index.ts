@@ -1,20 +1,21 @@
 import { MOVE_DOWN, MOVE_LEFT, MOVE_UP, MOVE_RIGHT, ADD_BODY} from "../actions/index";
-import { Block, Directions } from "/Users/dizhu/snake-game/src/utilities/index.tsx"
+import { Point, Directions, Block} from "/Users/dizhu/snake-game/src/utilities/index.tsx"
 import { createSlice } from '@reduxjs/toolkit'
+import type { PayloadAction } from '@reduxjs/toolkit'
+
+let p1: Point = {x: Math.floor(Math.random()*1000/20) * 20, y: Math.floor(Math.random()*600/20) * 20}
 
 const todosSlice = createSlice({
   name: 'snake',
   initialState: { 
-    snake: [{pos:{x: 500, y: 300}, direction: Directions.Left}, {pos:{x: 480, y: 300}, direction: Directions.Left}],
-    gameOver: false
+   snake: [{pos:{x: 500, y: 300}, direction: Directions.Left}, {pos:{x: 480, y: 300}, direction: Directions.Left}],
+   fruit: p1
   },
   reducers: {
-    blockAdded(state, action) {
-      state.snake.push({
-        pos: action.payload.pos,
-        direction: action.payload.direction,
-      })
+    blockAdded(state, action: PayloadAction<Block>) {
+      state.snake.push(action.payload)
     },
+
     moveLeft(state) {
       state.snake.forEach((element) => {
         element.direction = Directions.Left
@@ -39,9 +40,13 @@ const todosSlice = createSlice({
         element.pos.y -= 20
     });
     },
+    changeFruit(state) {
+      let p2: Point = {x: Math.floor(Math.random()*1000/20) * 20, y: Math.floor(Math.random()*600/20) * 20}
+      state.fruit = p2
+    }
   }
 })
 
-export const { blockAdded, moveLeft, moveDown, moveRight, moveUp } = todosSlice.actions
+export const { blockAdded, moveLeft, moveDown, moveRight, moveUp, changeFruit } = todosSlice.actions
 export default todosSlice.reducer
 
