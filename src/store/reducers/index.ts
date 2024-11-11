@@ -4,16 +4,23 @@ import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 
 let p1: Point = {x: Math.floor(Math.random()*1000/20) * 20, y: Math.floor(Math.random()*600/20) * 20}
+let b1: Block = {pos:{x: 500, y: 300}, direction: Directions.Left}
+let b2: Block = {pos:{x: 480, y: 300}, direction: Directions.Left}
 
 const todosSlice = createSlice({
   name: 'snake',
   initialState: { 
-   snake: [{pos:{x: 500, y: 300}, direction: Directions.Left}, {pos:{x: 480, y: 300}, direction: Directions.Left}],
-   fruit: p1
+   snake: [b1, b2],
+   fruit: p1,
+   counter: 0
   },
   reducers: {
     blockAdded(state, action: PayloadAction<Block>) {
       state.snake.push(action.payload)
+    },
+
+    increaseScore(state) {
+      state.counter += 1
     },
 
     moveLeft(state) {
@@ -47,6 +54,6 @@ const todosSlice = createSlice({
   }
 })
 
-export const { blockAdded, moveLeft, moveDown, moveRight, moveUp, changeFruit } = todosSlice.actions
+export const { blockAdded, moveLeft, moveDown, moveRight, moveUp, changeFruit, increaseScore } = todosSlice.actions
 export default todosSlice.reducer
 

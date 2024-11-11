@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useState, useMemo, useCallback  }  from "reac
 import { clearCanvas, drawSnake, drawGrid, Point, drawFruit, Block} from "../utilities/index.tsx"
 import { useAppDispatch, useAppSelector } from '../hooks.tsx'
 import { withDefaultColorScheme } from "@chakra-ui/react"
-import { blockAdded, moveLeft, moveDown, moveRight, moveUp, changeFruit} from "../store/reducers/index.ts"
+import { blockAdded, moveLeft, moveDown, moveRight, moveUp, changeFruit, increaseScore} from "../store/reducers/index.ts"
 import { Directions } from "../utilities/index.tsx"
 
 
@@ -10,6 +10,8 @@ const Board = (props) => {
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
     const snake = useAppSelector((state) => state.snake)
+
+    const score = useAppSelector((state) => state.counter)
 
     const [gg, setGG] = useState(false);
 
@@ -21,19 +23,18 @@ const Board = (props) => {
 
     /*useEffect(() => {
       const canvas = canvasRef.current
-
-      snake.forEach((element) => {
-        if(element.pos.x <= 0 || element.pos.y >= 599 || element.pos.y <= 0 || element.pos.x >= 999)
-          {
-            setGG(true)
-          }
-        });
       
       if(snake[0].pos.x == memoizedValue.x && snake[0].pos.y == memoizedValue.y)
         {
           dispatch(blockAdded({pos:{x:memoizedValue.x, y: memoizedValue.y}, Directions: Directions.Left}))
         }
 
+        snake.forEach((element) => {
+      if(element.pos.x <= 0 || element.pos.y >= 599 || element.pos.y <= 0 || element.pos.x >= 999)
+        {
+          setGG(true)
+        }
+      });
       if(canvas)
       {
         const context = canvas.getContext('2d')
@@ -76,10 +77,11 @@ const Board = (props) => {
 
           drawFruit(context, fruit)
 
-          if(snake[0].pos.x == fruit.x && snake[0].pos.y == fruit.y)
+          if(snake[1].pos.x == fruit.x && snake[1].pos.y == fruit.y)
           {
-            let body:Block = {pos: {x: fruit.x, y: fruit.y}, direction: snake[0].direction}
-            dispatch(blockAdded(body));
+            dispatch(increaseScore())
+            let b:Block = {pos: {x: fruit.x-20*(score+1), y: fruit.y}, direction: snake[0].direction}
+            dispatch(blockAdded(b));
             console.log(snake)
             dispatch(changeFruit())
           }
@@ -120,7 +122,7 @@ const Board = (props) => {
               window.removeEventListener('keydown', handleKeyDown);
             };
           }
-        }, [snake, blockAdded]);
+        }, [snake, gg]);
     
     return (
         <>
