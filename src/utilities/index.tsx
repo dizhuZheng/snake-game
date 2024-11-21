@@ -44,3 +44,20 @@ export function drawGrid(context, width, height){
     context.strokeStyle = "DodgerBlue";
     context.stroke();
 }
+
+export function move(block) {
+    switch(block.direction) {
+    case Directions.Left:
+        block.pos.x -= 20
+        break;
+    case Directions.Right:
+        block.pos.x += 20
+        break;
+    case Directions.Up:
+        block.pos.y -= 20
+        break;
+    case Directions.Down:
+        block.pos.y += 20
+        break;
+    }
+}
