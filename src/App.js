@@ -1,13 +1,13 @@
 import { ChakraProvider, Container, Heading, Kbd, Button } from "@chakra-ui/react";
-import { Provider } from "react-redux";
 import { useState  } from "react"
 import { useAppSelector } from './hooks.tsx'
 import Board from "./components/Board.tsx";
-import { increaseScore} from "./store/reducers/index.ts";
 export default function App() {
   const [stop, setStop] = useState(false);
 
   const score = useAppSelector((state) => state.counter)
+
+  const test = useAppSelector((state) => state.test)
 
   function handleClick() {
     setStop(!stop); 
@@ -19,6 +19,7 @@ export default function App() {
         <Container maxW="container.lg" centerContent>
           <Heading as="h1" size="xl">SNAKE GAME</Heading>
           <Heading as="h3" size="xs">Current score:{score}</Heading>
+          <Heading as="h3" size="xs">Test: {test}</Heading>
           <Board height={600} width={1000} stop={stop}/>
         </Container>
         <Container centerContent>

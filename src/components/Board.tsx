@@ -2,9 +2,9 @@ import React, { useRef, useEffect, useState, useMemo, useCallback  }  from "reac
 import { clearCanvas, drawSnake, drawGrid, Point, drawFruit, Block} from "../utilities/index.tsx"
 import { useAppDispatch, useAppSelector } from '../hooks.tsx'
 import { withDefaultColorScheme } from "@chakra-ui/react"
-import { blockAdded, moveLeft, moveDown, moveRight, moveUp, changeFruit, increaseScore} from "../store/reducers/index.ts"
+import { left, right, up, down, blockAdded, changeFruit, increaseScore} from "../store/reducers/index.ts"
 import { Directions } from "../utilities/index.tsx"
-
+import { moveLeft } from "../store/sagas/index.ts"
 
 const Board = (props) => {
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -73,43 +73,44 @@ const Board = (props) => {
 
           drawSnake(context, snake)
 
-          drawGrid(context, props.width, props.height)
+          // drawGrid(context, props.width, props.height)
 
-          drawFruit(context, fruit)
+          // drawFruit(context, fruit)
 
-          if(snake[1].pos.x == fruit.x && snake[1].pos.y == fruit.y)
+          /*if(snake[1].pos.x == fruit.x && snake[1].pos.y == fruit.y)
           {
             dispatch(increaseScore())
             let b:Block = {pos: {x: fruit.x-20*(score+1), y: fruit.y}, direction: snake[0].direction}
             dispatch(blockAdded(b));
             console.log(snake)
             dispatch(changeFruit())
-          }
+          }*/
 
           const handleKeyDown = (event) => {
         
               switch (event.key) {
                 case 'a':
                   // move left
-                  dispatch(moveLeft());
+                  dispatch({ type: 'increment_saga' })
                   clearCanvas(context, props.width, props.height)
+                  drawSnake(context, snake )
                   drawGrid(context, props.width, props.height)
                   break;
                 case 's':
                   // Move down
-                  dispatch(moveDown());
+                  dispatch({type: 'moveDown'})
                   clearCanvas(context, props.width, props.height)
                   drawGrid(context, props.width, props.height)
                   break;
                 case 'w':
                   // Move up
-                  dispatch(moveUp());
+                  dispatch({type: 'moveUp'})
                   clearCanvas(context, props.width, props.height)
                   drawGrid(context, props.width, props.height)
                   break;
                 case 'd':
                   // Move Right
-                  dispatch(moveRight());
+                  dispatch({type: 'moveRight'})
                   clearCanvas(context, props.width, props.height)
                   drawGrid(context, props.width, props.height)
                   break;

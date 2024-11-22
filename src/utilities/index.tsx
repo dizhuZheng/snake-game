@@ -3,8 +3,8 @@ export function clearCanvas(context, width, height): void{
 }
 
 export interface Point {
-    readonly x: number;
-    readonly y: number;
+    x: number;
+    y: number;
 }
 
 export enum Directions {
@@ -46,18 +46,19 @@ export function drawGrid(context, width, height){
 }
 
 export function move(block) {
-    switch(block.direction) {
-    case Directions.Left:
-        block.pos.x -= 20
-        break;
-    case Directions.Right:
-        block.pos.x += 20
-        break;
-    case Directions.Up:
-        block.pos.y -= 20
-        break;
-    case Directions.Down:
-        block.pos.y += 20
-        break;
+    switch(block.direction) 
+    {
+        case Directions.Left:
+            block.pos.x -= 20
+            break;
+        case Directions.Right:
+            block.pos.x += 20
+            break;
+        case Directions.Up:
+            block.pos.y -= 20
+            break;
+        case Directions.Down:
+            block.pos.y += 20
+            break;
     }
 }

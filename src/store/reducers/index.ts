@@ -7,14 +7,33 @@ let p1: Point = {x: Math.floor(Math.random()*1000/20) * 20, y: Math.floor(Math.r
 let b1: Block = {pos:{x: 500, y: 300}, direction: Directions.Left}
 let b2: Block = {pos:{x: 480, y: 300}, direction: Directions.Left}
 let head: Block
+let initialState = { 
+  snake: [b1, b2],
+  fruit: p1,
+  counter: 0,
+  test: 0
+ }
 
+function todosReducer(state = initialState, action) {
+  switch (action.type) {
+    case 'increment': {
+      state.snake.forEach((element) => {
+        element.pos.x -= 20
+      })
+    }
+    default:
+      return state
+  }
+}
+/*
 const todosSlice = createSlice({
   name: 'snake',
 
   initialState: { 
    snake: [b1, b2],
    fruit: p1,
-   counter: 0
+   counter: 0,
+   test: 0
   },
 
   reducers: {
@@ -22,42 +41,30 @@ const todosSlice = createSlice({
       state.snake.push(action.payload)
     },
 
+    increment(){
+      console.log('this is from reducer')
+    },
+
     increaseScore(state) {
       state.counter += 1
     },
 
-    moveLeft(state) {
-      head = state.snake[0]
-      head.direction = Directions.Left
+    left(state){
       state.snake.forEach((element) => {
-        if (element.pos != head.pos){
-          move(element) 
-        }
+        element.pos.x -= 20
       })
     },
 
-    moveRight(state) {
-      head = state.snake[0]
-      head.direction = Directions.Right
-      state.snake.forEach((element) => {
-        while (element.pos != head.pos){
-          move(element) 
-        }
-      })
+    right(state){
+
     },
 
-    moveDown(state) {
-      state.snake.forEach((element) => {
-        element.direction = Directions.Down
-        element.pos.y += 20
-      });
+    up(state){
+
     },
 
-    moveUp(state) {
-      state.snake.forEach((element) => {
-        element.direction = Directions.Up
-        element.pos.y -= 20
-    });
+    down(state){
+
     },
 
     changeFruit(state) {
@@ -67,6 +74,8 @@ const todosSlice = createSlice({
   }
 })
 
-export const { blockAdded, moveLeft, moveDown, moveRight, moveUp, changeFruit, increaseScore } = todosSlice.actions
-export default todosSlice.reducer
+export const { blockAdded, left, right, up, down, changeFruit, increaseScore } = todosSlice.actions
+export default todosSlice.reducer 
+*/
+export default todosReducer
 
