@@ -32,6 +32,22 @@ function todosReducer(state = initialState, action) {
         ...state,
      };
     }
+    case 'up': {
+      state.snake.forEach((element) => {
+        element.pos.y -= 20
+      })
+      return {
+        ...state,
+     };
+    }
+    case 'right': {
+      state.snake.forEach((element) => {
+        element.pos.x += 20
+      })
+      return {
+        ...state,
+     };
+    }
     default:
       return state
   }

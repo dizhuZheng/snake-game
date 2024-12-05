@@ -105,14 +105,16 @@ const Board = (props) => {
                   break;
                 case 'w':
                   // Move up
-                  dispatch({type: 'moveUp'})
+                  dispatch({type: 'moveup_saga'})
                   clearCanvas(context, props.width, props.height)
+                  drawSnake(context, snake)
                   drawGrid(context, props.width, props.height)
                   break;
                 case 'd':
                   // Move Right
-                  dispatch({type: 'moveRight'})
+                  dispatch({type: 'moveright_saga'})
                   clearCanvas(context, props.width, props.height)
+                  drawSnake(context, snake)
                   drawGrid(context, props.width, props.height)
                   break;
                 default:
