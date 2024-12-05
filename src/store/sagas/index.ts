@@ -1,27 +1,24 @@
-import { put, takeLatest, takeEvery, delay, all } from 'redux-saga/effects';
+import { put, takeLatest, all } from 'redux-saga/effects';
 
 
-function* increment() {
-  yield put({ type: 'increment' }) // 相当于：dispatch({ type: 'increment' })
-}
-/*function* moveRight() {
-  yield put({ type: 'right' })
-}
-
-function* moveUp() {
-  yield put({ type: 'up' }) 
+function* moveLeft() {
+  yield put({ type: 'left' }) 
 }
 
 function* moveDown() {
   yield put({ type: 'down' }) 
-}*/
+}
 
 function* watchLeft() {
-  yield takeEvery('increment_saga', increment) 
+  yield takeLatest('moveleft_saga', moveLeft) 
+}
+
+function* watchDown() {
+  yield takeLatest('movedown_saga', moveDown) 
 }
 
 function* rootSaga() {
-  yield all([watchLeft()]) 
+  yield all([watchLeft(), watchDown()]) 
 }
 
 export default rootSaga

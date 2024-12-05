@@ -2,9 +2,9 @@ import React, { useRef, useEffect, useState, useMemo, useCallback  }  from "reac
 import { clearCanvas, drawSnake, drawGrid, Point, drawFruit, Block} from "../utilities/index.tsx"
 import { useAppDispatch, useAppSelector } from '../hooks.tsx'
 import { withDefaultColorScheme } from "@chakra-ui/react"
-import { left, right, up, down, blockAdded, changeFruit, increaseScore} from "../store/reducers/index.ts"
+// import { left, right, up, down, blockAdded, changeFruit, increaseScore} from "../store/reducers/index.ts"
 import { Directions } from "../utilities/index.tsx"
-import { moveLeft } from "../store/sagas/index.ts"
+// import { moveLeft } from "../store/sagas/index.ts"
 
 const Board = (props) => {
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -91,15 +91,16 @@ const Board = (props) => {
               switch (event.key) {
                 case 'a':
                   // move left
-                  dispatch({ type: 'increment_saga' })
+                  dispatch({ type: 'moveleft_saga' })
                   clearCanvas(context, props.width, props.height)
-                  drawSnake(context, snake )
+                  drawSnake(context, snake)
                   drawGrid(context, props.width, props.height)
                   break;
                 case 's':
                   // Move down
-                  dispatch({type: 'moveDown'})
+                  dispatch({type: 'movedown_saga'})
                   clearCanvas(context, props.width, props.height)
+                  drawSnake(context, snake)
                   drawGrid(context, props.width, props.height)
                   break;
                 case 'w':

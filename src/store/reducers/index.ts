@@ -16,10 +16,21 @@ let initialState = {
 
 function todosReducer(state = initialState, action) {
   switch (action.type) {
-    case 'increment': {
+    case 'left': {
       state.snake.forEach((element) => {
         element.pos.x -= 20
       })
+      return {
+        ...state,
+     };
+    }
+    case 'down': {
+      state.snake.forEach((element) => {
+        element.pos.y += 20
+      })
+      return {
+        ...state,
+     };
     }
     default:
       return state
